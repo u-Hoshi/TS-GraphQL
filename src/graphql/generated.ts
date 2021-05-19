@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -11,6 +11,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  JSON: any;
+  JSONObject: any;
 };
 
 export type AuthenticateResponse = {
@@ -18,8 +20,11 @@ export type AuthenticateResponse = {
   token: Scalars['String'];
 };
 
+
+
 export type Mutation = {
   __typename?: 'Mutation';
+  _empty?: Maybe<Scalars['String']>;
   register: AuthenticateResponse;
 };
 
@@ -31,6 +36,7 @@ export type MutationRegisterArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  _empty?: Maybe<Scalars['String']>;
   login: AuthenticateResponse;
 };
 
@@ -120,6 +126,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   AuthenticateResponse: ResolverTypeWrapper<AuthenticateResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  JSON: ResolverTypeWrapper<Scalars['JSON']>;
+  JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -129,6 +137,8 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   AuthenticateResponse: AuthenticateResponse;
   String: Scalars['String'];
+  JSON: Scalars['JSON'];
+  JSONObject: Scalars['JSONObject'];
   Mutation: {};
   Query: {};
   Boolean: Scalars['Boolean'];
@@ -139,16 +149,28 @@ export type AuthenticateResponseResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
+export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
+  name: 'JSONObject';
+}
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   register?: Resolver<ResolversTypes['AuthenticateResponse'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'password'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   login?: Resolver<ResolversTypes['AuthenticateResponse'], ParentType, ContextType, RequireFields<QueryLoginArgs, 'email' | 'password'>>;
 };
 
 export type Resolvers<ContextType = any> = {
   AuthenticateResponse?: AuthenticateResponseResolvers<ContextType>;
+  JSON?: GraphQLScalarType;
+  JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
